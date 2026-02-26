@@ -1,3 +1,4 @@
+import { Navbar } from "@/components/navbar"
 import { Navigate, Outlet } from "react-router"
 import { useSigninCheck } from "reactfire"
 
@@ -14,6 +15,7 @@ function AdminLayout() {
   
   return (
     <>
+      <Navbar />
       <Outlet />
     </>
   )

@@ -1,19 +1,15 @@
-import { useAuth, useUser } from "reactfire"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { useUser } from "reactfire"
 
 function DashboardPage() {
     const { data: user } = useUser()
-    
-    const auth = useAuth()
-    const handleSignOut = () => {
-        auth.signOut()
-    }
 
     return (
         <>
-            <h1>Welcome, {user?.displayName || "..."}</h1>
-            <button onClick={handleSignOut}>
-                Sign Out
-            </button>
+            <div className="p-6">
+                <h1>Welcome</h1>
+            </div>
         </>
     )
 }
