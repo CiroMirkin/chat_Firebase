@@ -1,16 +1,12 @@
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth"
-import { useAuth } from "reactfire"
+import { useAuthAction } from "../../hooks/useAuthAction"
 
 function RegisterPage() {
     
-    const auth = useAuth()
+    const auth = useAuthAction()
     const handleGoogleRegister = async () => {
-        try {
-            const provider = new GoogleAuthProvider()
-            await signInWithPopup(auth, provider)
-        }
-        catch(e) {
-            console.error(e)
+        const { success } = await auth.loginWithGoogle()
+        if(success) {
+            console.info('good')
         }
     }
 
