@@ -1,8 +1,8 @@
 
-function Login() {
+function LoginPage() {
     return (
         <p>log</p>
     )
 }
 
-export default Login
+export default LoginPage

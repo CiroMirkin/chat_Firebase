@@ -1,8 +1,8 @@
 
-function Register() {
+function RegisterPage() {
     return (
         <p>reg</p>
     )
 }
 
-export default Register
+export default RegisterPage
