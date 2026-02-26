@@ -1,7 +1,20 @@
+import { useAuth, useUser } from "reactfire"
 
 function DashboardPage() {
+    const { data: user } = useUser()
+    
+    const auth = useAuth()
+    const handleSignOut = () => {
+        auth.signOut()
+    }
+
     return (
-        <p>dashboard</p>
+        <>
+            <h1>Welcome, {user?.displayName || "..."}</h1>
+            <button onClick={handleSignOut}>
+                Sign Out
+            </button>
+        </>
     )
 }
 
