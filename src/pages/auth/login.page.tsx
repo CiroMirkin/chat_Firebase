@@ -1,43 +1,52 @@
-import { useState } from "react"
 import { useNavigate } from "react-router"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { Spinner } from "@/components/ui/spinner"
 import { useAuthAction } from "../../hooks/useAuthAction"
 import { toast } from "sonner"
+import { useForm } from "react-hook-form"
+import { loginZodSchemas, type LoginZodSchemaType } from "@/lib/zodSchemas"
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Field, FieldDescription, FieldLabel } from "@/components/ui/field"
 
 function LoginPage() {
     const navigate = useNavigate()
     const auth = useAuthAction()
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
+    
+    const { register, handleSubmit, formState: { errors } } = useForm<LoginZodSchemaType>({
+        resolver: zodResolver(loginZodSchemas),
+        defaultValues: {
+            email: "",
+            password: "",
+        }
+    })
 
     const handleGoogleLogin = async () => {
-        const { success, error } = await auth.loginWithGoogle()
-        if (success) {
-            toast.success("Sesión iniciada")
-            navigate("/admin/dashboard")
-        } else {
+        try {
+            const { success, error } = await auth.loginWithGoogle()
+            if (success) {
+                toast.success("Sesión iniciada")
+                navigate("/admin/dashboard")
+                return
+            }
             toast.error(error?.message || "Error al iniciar sesión")
+        } catch {
+            toast.error("Error al iniciar sesión")
         }
     }
 
-    const handleLogin = async (e: React.FormEvent) => {
-        e.preventDefault()
-        
-        if (!email || !password) {
-            toast.error("Completa todos los campos")
-            return
-        }
-
-        const { success, error } = await auth.login({ email, password })
-        if (success) {
-            toast.success("Sesión iniciada")
-            navigate("/admin/dashboard")
-        } else {
+    const handleLogin = async ({ email, password }: LoginZodSchemaType) => {
+        try {
+            const { success, error } = await auth.login({ email, password })
+            if (success) {
+                toast.success("Sesión iniciada")
+                navigate("/admin/dashboard")
+                return
+            }
             toast.error(error?.message || "Credenciales inválidas")
+        } catch {
+            toast.error("Credenciales inválidas")
         }
     }
 
@@ -48,30 +57,36 @@ function LoginPage() {
                     <CardTitle>Bienvenido</CardTitle>
                     <CardDescription>Inicia sesión con tu cuenta</CardDescription>
                 </CardHeader>
-                <form onSubmit={handleLogin}>
+                <form onSubmit={handleSubmit(handleLogin)}>
                     <CardContent className="grid gap-4">
-                        <div className="grid gap-2">
-                            <Label htmlFor="email">Correo</Label>
+                        <Field data-invalid={!!errors.email}>
+                            <FieldLabel htmlFor="email">Correo</FieldLabel>
                             <Input
                                 id="email"
                                 type="email"
                                 placeholder="correo@ejemplo.com"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
                                 disabled={auth.loading}
+                                aria-invalid={!!errors.email}
+                                {...register("email")}
                             />
-                        </div>
-                        <div className="grid gap-2">
-                            <Label htmlFor="password">Contraseña</Label>
+                            {errors.email && (
+                                <FieldDescription>{errors.email.message}</FieldDescription>
+                            )}
+                        </Field>
+                        <Field data-invalid={!!errors.password}>
+                            <FieldLabel htmlFor="password">Contraseña</FieldLabel>
                             <Input
                                 id="password"
                                 type="password"
                                 placeholder="••••••••"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
                                 disabled={auth.loading}
+                                aria-invalid={!!errors.password}
+                                {...register("password")}
                             />
-                        </div>
+                            {errors.password && (
+                                <FieldDescription>{errors.password.message}</FieldDescription>
+                            )}
+                        </Field>
                         <Button type="submit" className="w-full" disabled={auth.loading}>
                             {auth.loading ? <Spinner className="size-4 mr-2" /> : null}
                             Iniciar Sesión
@@ -81,9 +96,7 @@ function LoginPage() {
                                 <span className="w-full border-t" />
                             </div>
                             <div className="relative flex justify-center text-xs uppercase">
-                                <span className="bg-card px-2 text-muted-foreground">
-                                    O
-                                </span>
+                                <span className="bg-card px-2 text-muted-foreground">O</span>
                             </div>
                         </div>
                         <Button type="button" variant="outline" onClick={handleGoogleLogin} disabled={auth.loading}>
