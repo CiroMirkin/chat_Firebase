@@ -73,6 +73,7 @@ export const useAuthAction = (): AuthActions => {
                 await updateProfile(currentUser.user, {
                     displayName: data.email.split('@')[0] || ''
                 })
+                await currentUser.user.reload()
             }
         })
     }
