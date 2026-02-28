@@ -1,6 +1,7 @@
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { useUser } from "reactfire"
+import EditProfile from "@/components/EditProfile"
 
 function ProfilePage() {
     const { data: user } = useUser()
@@ -21,6 +22,11 @@ function ProfilePage() {
                             <CardDescription>{user?.email}</CardDescription>
                         </CardHeader>
                     </Card>
+                </div>
+
+                <div className="mt-6 max-w-2xl mx-auto space-y-6">
+                    { user && <EditProfile user={user} />}
+                    
                 </div>
             </div>
         </>
