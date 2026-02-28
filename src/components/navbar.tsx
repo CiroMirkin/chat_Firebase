@@ -59,10 +59,10 @@ function Navbar() {
                         <Link to={profilePath}>
                             <div className="flex items-center gap-2">
                                 <Avatar className="size-8">
-                                    <AvatarImage src={user?.photoURL || undefined} />
-                                    <AvatarFallback>{user?.displayName?.charAt(0) || "?"}</AvatarFallback>
+                                    <AvatarImage src={user!.photoURL || undefined} />
+                                    <AvatarFallback>{user!.displayName?.charAt(0) || "?"}</AvatarFallback>
                                 </Avatar>
-                                <span className="text-sm hidden sm:inline">{user?.displayName}</span>
+                                <span className="text-sm hidden sm:inline">{user!.displayName}</span>
                             </div>
                         </Link>
                     </Button>

@@ -20,8 +20,8 @@ function EditProfile ({ user }: Props) {
     const { register, handleSubmit, formState: { errors } } = useForm<ProfileFormValues>({
         resolver: zodResolver(profileSchema),
         defaultValues: {
-            name: user?.displayName || "",
-            photoURL: user?.photoURL || "",
+            name: user!.displayName || "",
+            photoURL: user!.photoURL || "",
         },
     })
 
