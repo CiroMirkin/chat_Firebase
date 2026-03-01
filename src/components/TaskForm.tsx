@@ -9,7 +9,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useTaskActions } from "@/hooks/useTaskActions"
 import { toast } from "sonner"
 import { useTransition } from "react"
-import { Plus } from "lucide-react"
 
 function TaskForm() {
     const [ isPending, startTransition ] = useTransition()

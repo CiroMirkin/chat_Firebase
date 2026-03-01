@@ -17,6 +17,7 @@ function TaskList(){
                 await deleteTask(taskId)
             }
             catch(e) {
+                console.error(e)
                 toast.error("Error al eliminar la tarea.")
             }
         })
@@ -28,6 +29,7 @@ function TaskList(){
                 await toggleTaskToComplete(taskId)
             }
             catch(e) {
+                console.error(e)
                 toast.error("Error al actualizar el estados de la tarea.")
             }
         })
