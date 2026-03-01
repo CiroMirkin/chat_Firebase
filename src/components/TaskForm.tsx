@@ -5,9 +5,11 @@ import { Field, FieldError, FieldLabel } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useTaskActions } from "@/hooks/useTaskActions"
 import { toast } from "sonner"
 import { useTransition } from "react"
+import { Plus } from "lucide-react"
 
 function TaskForm() {
     const [ isPending, startTransition ] = useTransition()
@@ -35,7 +37,14 @@ function TaskForm() {
     }
 
     return (
-        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
+        <Card className="mb-8">
+            <CardHeader className="pb-4">
+                <CardTitle className="text-lg flex items-center gap-2">
+                    Nueva tarea
+                </CardTitle>
+            </CardHeader>
+            <CardContent>
+                <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
             <Controller
                 name="title"
                 control={form.control}
@@ -77,9 +86,11 @@ function TaskForm() {
             />
 
             <Button type="submit" className="w-full" disabled={isPending}>
-                Guardar tarea
+                {isPending ? "Guardando…" : "Guardar tarea"}
             </Button>
         </form>
+            </CardContent>
+        </Card>
     )
 }
 
