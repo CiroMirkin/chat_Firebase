@@ -6,7 +6,7 @@ export const useChatActions = () => {
     
     const { data: user } = useUser()
     if(!user) throw new Error('User not found')
-    const userId = user!.uid
+    const userId = user?.uid
     
     const db = useFirestore()
     const roomRef = collection(db, "rooms")
