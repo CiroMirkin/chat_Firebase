@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useNavigate } from "react-router"
+import { Navigate, useNavigate } from "react-router"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -46,7 +46,7 @@ function RegisterPage() {
         const { success, error } = await auth.register({ email, password })
         if (success) {
             toast.success("Cuenta creada")
-            navigate("/admin/dashboard")
+            return <Navigate to={"/admin/dashboard"} replace />
         } else {
             toast.error(error?.message || "Error al crear cuenta")
         }

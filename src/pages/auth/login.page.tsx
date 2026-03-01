@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router"
+import { Navigate, useNavigate } from "react-router"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -27,8 +27,7 @@ function LoginPage() {
             const { success, error } = await auth.loginWithGoogle()
             if (success) {
                 toast.success("Sesión iniciada")
-                navigate("/admin/dashboard")
-                return
+                return <Navigate to={"/admin/dashboard"} replace />
             }
             toast.error(error?.message || "Error al iniciar sesión")
         } catch {
