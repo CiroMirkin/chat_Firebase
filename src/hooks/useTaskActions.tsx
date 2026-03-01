@@ -1,5 +1,5 @@
 import type { Task } from "@/schemas/taskSchema"
-import { addDoc, collection, query, where } from "firebase/firestore"
+import { addDoc, collection, deleteDoc, doc, query, where } from "firebase/firestore"
 import { useFirestore, useFirestoreCollectionData, useUser } from "reactfire"
 
 interface NewTask {
@@ -34,8 +34,14 @@ export const useTaskActions = () => {
         return await addDoc(taskCollectionRef, NewTask)
     }
 
+    const deleteTask = async (taskId: string) => {
+        const taskDoc = doc(db, "tasks", taskId)
+        return await deleteDoc(taskDoc)
+    }
+
     return {
         tasks: tasks as Task[],
         createTask,
+        deleteTask,
     }
 }
