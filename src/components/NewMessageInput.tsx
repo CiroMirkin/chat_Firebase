@@ -4,18 +4,18 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller, useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { Field, FieldError } from "./ui/field"
-import { Input } from "./ui/input"
 import { Button } from "./ui/button"
-import { SendIcon } from "lucide-react"
+import { ArrowUpRight } from "lucide-react"
 import { useTransition } from "react"
 import { Spinner } from "./ui/spinner"
+import { Textarea } from "./ui/textarea"
 
 interface Props {
     chatId: string
 }
 
 function NewMessageInput({ chatId }: Props) {
-    const [ isLoading, startTransition ] = useTransition()
+    const [isLoading, startTransition] = useTransition()
     const { sendMessage } = useMessagesActions(chatId)
     
     const form = useForm<MessageSchemaType>({
@@ -26,6 +26,7 @@ function NewMessageInput({ chatId }: Props) {
     })
 
     const handleSendMessage = form.handleSubmit(({ text }) => {
+        if (!text.trim()) return
         startTransition(async () => {
             try {
                 await sendMessage(text)
@@ -38,30 +39,41 @@ function NewMessageInput({ chatId }: Props) {
     })
     
     return (
-        <form onSubmit={handleSendMessage}>
-            <div className="flex gap-2">
-                <Controller
-                    name="text"
-                    control={form.control}
-                    render={({ field, fieldState }) => (
-                        <Field data-invalid={fieldState.invalid}>
-                            <Input
-                                {...field}
-                                id={field.name}
-                                aria-invalid={fieldState.invalid}
-                                placeholder="Escribe un mensaje..."
-                                aria-label="Escribir mensaje"
-                            />
-                            {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                        </Field>
-                    )}
-                />
-                <Button type="submit" size="icon" aria-label="Enviar mensaje" disabled={isLoading}>
-                    {
-                        isLoading ? <Spinner /> : <SendIcon className="size-4" />
-                    }
-                </Button>
-            </div>
+        <form onSubmit={handleSendMessage} className="flex items-end gap-3 bg-white rounded-2xl border border-black/10 p-1.5 focus-within:border-[#FFA51E] transition-all shadow-sm">
+            <Controller
+                name="text"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                    <Field data-invalid={fieldState.invalid} className="flex-1">
+                        <Textarea
+                            {...field}
+                            id={field.name}
+                            aria-invalid={fieldState.invalid}
+                            disabled={isLoading}
+                            placeholder="Escribe un mensaje..."
+                            aria-label="Escribir mensaje"
+                            className="bg-transparent border-none focus:ring-0 resize-none py-2.5 px-2 text-sm max-h-32 min-h-[40px] outline-none"
+                            rows={1}
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter" && !e.shiftKey) {
+                                    e.preventDefault()
+                                    handleSendMessage()
+                                }
+                            }}
+                        />
+                        {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                    </Field>
+                )}
+            />
+            <Button 
+                type="submit" 
+                size="icon"
+                disabled={isLoading || !form.watch("text")?.trim()}
+                className="bg-[#FFA51E] text-[#1E1E1E] w-10 h-10 rounded-xl flex items-center justify-center hover:bg-[#FF5200] hover:text-white transition-all active:scale-95 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                aria-label="Enviar mensaje"
+            >
+                {isLoading ? <Spinner /> : <ArrowUpRight className="size-5" />}
+            </Button>
         </form>
     )
 }
