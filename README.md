@@ -1,23 +1,29 @@
 # Chat
 
-(Deploy)[https://prueba-92c10.web.app/]
+[Deploy](https://prueba-92c10.web.app/)
 
-Tech Stack:
+Aplicacion de mensajeria en tiempo real entre usuarios, construida con React y Firebase.
 
-* TypeScript + Vite
-* React + React Router (Declarativo)
-* Firebase + [ReactFire](https://github.com/FirebaseExtended/reactfire)
-* Zod + React-hook-form
+## Tech Stack
 
-Firebase services: Authentication, Firestore Database y Hosting.
+- TypeScript + Vite
+- React + React Router (Declarativo)
+- Firebase + [ReactFire](https://github.com/FirebaseExtended/reactfire)
+- Zod + React-hook-form
 
-Features: 
+## Servicios de Firebase
 
-* Un usuario puede buscar a otro mediante su email.
-* Un usuario puede enviar mensajes a otro.
-* Un usuario puede cambiar su nombre.
+- Authentication
+- Firestore Database
+- Hosting
 
-Estructura del proyecto:
+## Features
+
+- Un usuario puede buscar a otro mediante su email.
+- Un usuario puede enviar mensajes a otro.
+- Un usuario puede cambiar su nombre.
+
+---
 
 ```
 └── 📁src
@@ -70,22 +76,90 @@ Estructura del proyecto:
     ├── index.css
     └── main.tsx
 ```
+---
 
-Reglas de Seguridad de Firestore:
+## Variables de entorno
 
-* users → Solo lees tu perfil y puedes modificarlo si es tuyo.
-* rooms → Solo puedes ver o modificar salas donde participas.
-* messages → Solo puedes leer o enviar mensajes en salas donde estás.
-* Prohibido traer listas completas (por privacidad).
-
-Ubicación: `firestore.rules` (Se que no es una buena practica exponer las reglas de seguriadad pero al ser un side-proyecto me parece lo correcto).
-Firebase docs: [Reglas de seguridad](https://firebase.google.com/docs/firestore/security/get-started?hl=es-419) - [Como Estructurar reglas de seguridad](https://firebase.google.com/docs/firestore/security/rules-structure?hl=es-419).
-
-
-Árbol de colecciones y documentos dentro de Firestore:
-
+Crea un archivo `.env.local` en la raiz del proyecto con las siguientes variables. Los valores los encontras en la consola de Firebase, en la configuracion del proyecto.
+```env
+VITE_FIREBASE_apiKey=""
+VITE_FIREBASE_authDomain=""
+VITE_FIREBASE_projectId=""
+VITE_FIREBASE_storageBucket=""
+VITE_FIREBASE_messagingSenderId=""
+VITE_FIREBASE_appId=""
 ```
-📁 /users (colección)
+
+---
+
+## Desarrollo local
+
+Instalar dependencias:
+```bash
+npm i
+```
+
+Iniciar servidor de desarrollo:
+```bash
+npm run dev
+```
+
+---
+
+## Deploy a Hosting de Firebase
+
+### 1. Instalar Firebase CLI
+```bash
+npm install -g firebase-tools
+```
+
+### 2. Iniciar sesion en Firebase
+```bash
+firebase login
+```
+
+### 3. Build del proyecto
+```bash
+npm run build
+```
+
+### 4. Inicializar el proyecto
+```bash
+firebase init
+```
+
+Durante la inicializacion, selecciona las siguientes opciones:
+
+| Pregunta | Respuesta |
+|---|---|
+| What do you want to use as your public directory? | `dist` |
+| Configure as a single-page app (rewrite all urls to /index.html)? | `Y` |
+| File dist/index.html already exists. Overwrite? | `n` |
+
+### 5. Desplegar
+```bash
+firebase deploy
+```
+
+#### Comandos de deploy individuales
+
+Solo hosting:
+```bash
+firebase deploy --only hosting
+```
+
+Solo reglas de Firestore:
+```bash
+firebase deploy --only firestore:rules
+```
+
+---
+
+## Base de datos
+
+### Estructura de colecciones en Firestore
+```
+📁 /users (coleccion)
   📄 abc123uid (documento)
      ├── displayName: "María García"
      ├── email: "maria@example.com"
@@ -96,7 +170,7 @@ Firebase docs: [Reglas de seguridad](https://firebase.google.com/docs/firestore/
      ├── email: "pepe@example.com"
      └── photoURL: "https://example.com/avatars/Pepe.jpg"
 
-📁 /rooms (colección)
+📁 /rooms (coleccion)
   📄 room_abc123_def456 (documento - Chat entre María y Pepe)
      ├── participants: ["abc123uid", "def456uid"]
      ├── createdAt: Timestamp(...)
@@ -105,7 +179,7 @@ Firebase docs: [Reglas de seguridad](https://firebase.google.com/docs/firestore/
      │    ├── senderId: "abc123uid"
      │    └── timestamp: Timestamp(...)
      │   }
-     └── 📁 messages (subcolección)
+     └── 📁 messages (subcoleccion)
           ├── 📄 msg_001
           │    ├── text: "Hola Pepe, ¿cómo estás?"
           │    ├── senderId: "abc123uid"
@@ -116,65 +190,23 @@ Firebase docs: [Reglas de seguridad](https://firebase.google.com/docs/firestore/
 
   📄 room_abc123_ghi789 (documento - Chat entre María y Ana)
      ├── participants: ["abc123uid", "ghi789uid"]
-     └── 📁 messages (subcolección)
+     └── 📁 messages (subcoleccion)
           └── ... (mensajes privados entre María y Ana)
 ```
 
-`.env.local`
+### Reglas de seguridad de Firestore
 
-```
-VITE_FIREBASE_apiKey=""
-VITE_FIREBASE_authDomain=""
-VITE_FIREBASE_projectId=""
-VITE_FIREBASE_storageBucket=""
-VITE_FIREBASE_messagingSenderId=""
-VITE_FIREBASE_appId=""
-```
+Las reglas estan definidas en `firestore.rules`. A continuacion un resumen de las restricciones aplicadas:
 
-## Desarrollo local
+| Coleccion | Regla |
+|---|---|
+| `users` | Solo podes leer tu propio perfil y modificarlo si te pertenece |
+| `rooms` | Solo podes ver o modificar salas en las que participas |
+| `messages` | Solo podes leer o enviar mensajes en salas donde estas incluido |
+| (general) | Prohibido traer listas completas (por privacidad) |
 
-```
-npm i
-```
+> Nota: Exponer las reglas de seguridad no es una buena practica en produccion. En este caso se hace de forma consciente al tratarse de un side-project.
 
-```
-npm run dev
-```
-
-##  Deploy a Hosting de Firebase
-
-Instalar Firebase CLI:
-
-```
-npm install -g firebase-tools
-```
-Iniciar sesión en Firebase:
-
-```
-firebase login
-```
-Inicializar el proyecto, antes ejecuta `npm run build`:
-
-```
-firebase init
-```
-Selecciona las siguientes opciones:
-
-What do you want to use as your public directory? dist
-Configure as a single-page app (rewrite all urls to /index.html)? Y
-File dist/index.html already exists. Overwrite? n
-
-
-Desplegar
-```
-firebase deploy
-```
-
-Desplegar Reglas
-```
-firebase deploy --only firestore:rules
-```
-Desplegar hosting
-```
-firebase deploy --only hosting
-```
+Referencias:
+- [Reglas de seguridad de Firestore](https://firebase.google.com/docs/firestore/security/get-started?hl=es-419)
+- [Como estructurar reglas de seguridad](https://firebase.google.com/docs/firestore/security/rules-structure?hl=es-419)
