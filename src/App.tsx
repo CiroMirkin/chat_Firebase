@@ -1,39 +1,37 @@
 import { Route, Routes } from "react-router"
-import RootLayout from "./layouts/root.layout"
-import PublicLayout from "./layouts/public.layout"
-import AdminLayout from "./layouts/admin.layout"
-import AuthLayout from "./layouts/auth.layout"
-import HomePage from "./pages/public/home.page"
-import DashboardPage from "./pages/admin/dashboard.page"
-import ProfilePage from "./pages/admin/profile.page"
-import ChatPage from "./pages/admin/chat.page"
-import LoginPage from "./pages/auth/login.page"
-import RegisterPage from "./pages/auth/register.page"
-import NotFoundPage from "./pages/public/not-found.page"
+import RootLayout from "./layouts/rootLayout"
+import PublicLayout from "./layouts/publicLayout"
+import AdminLayout from "./layouts/adminLayout"
+import AuthLayout from "./layouts/authLayout"
+import HomePage from "./pages/public/homePage"
+import ProfilePage from "./pages/admin/profilePage"
+import ChatPage from "./pages/admin/chatPage"
+import LoginPage from "./pages/auth/loginPage"
+import RegisterPage from "./pages/auth/registerPage"
+import NotFoundPage from "./pages/public/notFoundPage"
 
 function App() {
 
   return (
     <Routes>
-      <Route element={<RootLayout />} />
+      <Route element={<RootLayout />} >
+        {/* Public */}
+        <Route element={<PublicLayout />} >
+          <Route index element={<HomePage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Route>
 
-      {/* Public */}
-      <Route element={<PublicLayout />} >
-        <Route index element={<HomePage />} />
-        <Route path="*" element={<NotFoundPage />} />
-      </Route>
-
-      {/* Private */}
-      <Route path="admin" element={<AdminLayout />} >
-        <Route index element={<DashboardPage />} />
-        <Route path="profile" element={<ProfilePage />} />
-        <Route path="chat" element={<ChatPage />} />
-      </Route>
-      
-      {/* Auth */}
-      <Route path="auth" element={<AuthLayout />} >
-        <Route index path="login" element={<LoginPage />} />
-        <Route path="register" element={<RegisterPage />} />
+        {/* Private */}
+        <Route path="admin" element={<AdminLayout />} >
+          <Route index element={<ChatPage />} />
+          <Route path="profile" element={<ProfilePage />} />
+        </Route>
+        
+        {/* Auth */}
+        <Route path="auth" element={<AuthLayout />} >
+          <Route index path="login" element={<LoginPage />} />
+          <Route path="register" element={<RegisterPage />} />
+        </Route>
       </Route>
     </Routes>
   )

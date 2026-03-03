@@ -2,15 +2,18 @@ import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/ca
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { useUser } from "reactfire"
 import EditProfile from "@/components/EditProfile"
+import { Link } from "react-router"
+import { HomeIcon } from "lucide-react"
 
 function ProfilePage() {
     const { data: user } = useUser()
 
     return (
         <div className="container max-w-4xl mx-auto py-8 px-4">
-            <header className="mb-8">
-                <h1 className="text-3xl font-bold tracking-tight">Perfil</h1>
-                <p className="text-muted-foreground mt-1">Gestiona tu información personal</p>
+            <header className="p-4 flex items-center bg-white">
+                <Link to="/admin/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+                    <HomeIcon/>
+                </Link>
             </header>
 
             <div className="max-w-2xl mx-auto space-y-6">
