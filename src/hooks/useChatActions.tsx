@@ -1,4 +1,4 @@
-import type { Room } from "@/schemas/roomSchema"
+import type { Chat } from "@/schemas/chatSchema"
 import type { UserSaved } from "@/schemas/userSchema"
 import { addDoc, collection, getDocs, query, serverTimestamp, where } from "firebase/firestore"
 import { useFirestore, useFirestoreCollectionData, useUser } from "reactfire"
@@ -10,13 +10,13 @@ export const useChatActions = () => {
     const userId = user?.uid
     
     const db = useFirestore()
-    const roomRef = collection(db, "rooms")
-    const roomQuery = query(
-        roomRef, 
+    const chatsRef = collection(db, "rooms")
+    const chatsQuery = query(
+        chatsRef, 
         where('participants', 'array-contains', userId)
     )
 
-    const { data: rooms } = useFirestoreCollectionData(roomQuery, {
+    const { data: chats } = useFirestoreCollectionData(chatsQuery, {
         suspense: true,
         idField: 'id'
     })
@@ -56,7 +56,7 @@ export const useChatActions = () => {
             chatId: null,
         }
 
-        const existChat = rooms.find(chat => (
+        const existChat = chats.find(chat => (
             chat.participants.find((id: string) => id == friend.id)
         ))
         if(existChat) return {
@@ -65,12 +65,12 @@ export const useChatActions = () => {
             chatId: existChat.id
         }
 
-        const newChat: Omit<Room, 'id'> =  {
+        const newChat: Omit<Chat, 'id'> =  {
             createdAt: serverTimestamp(),
             lastMessage: null,
             participants: [friend.id, user.uid]
         }
-        const newChatDoc = await addDoc(roomRef, newChat)
+        const newChatDoc = await addDoc(chatsRef, newChat)
         return {
             success: true,
             message: "200",
@@ -79,7 +79,7 @@ export const useChatActions = () => {
     }
 
     return {
-        rooms: rooms as Room[],
+        chats: chats as Chat[],
         createOrFindChat,
     }
 }

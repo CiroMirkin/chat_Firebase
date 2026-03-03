@@ -13,7 +13,7 @@ export interface Message {
 
 export type LastMessage = Omit<Message, 'id'>
 
-export interface Room {
+export interface Chat {
     id: string
     participants: Participant[]
     createdAt: Timestamp
