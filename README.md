@@ -22,6 +22,8 @@ Aplicacion de mensajeria en tiempo real entre usuarios, construida con React y F
 - Un usuario puede buscar a otro mediante su email.
 - Un usuario puede enviar mensajes a otro.
 - Un usuario puede cambiar su nombre.
+- Un usuario puede cambiar su foto de perfil (URL de la foto).
+- Login con Google (Opcional).
 
 ---
 
