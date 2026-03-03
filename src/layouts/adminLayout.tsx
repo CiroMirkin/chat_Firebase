@@ -1,8 +1,8 @@
-import { Navbar } from "@/components/navbar"
 import { Spinner } from "@/components/ui/spinner"
-import { Suspense } from "react"
+import { Suspense, useState } from "react"
 import { Navigate, Outlet } from "react-router"
 import { useSigninCheck, useUser } from "reactfire"
+import { ChatContext, type ChatContextType } from "../contexts/ChatContext"
 
 function AdminLayout() {
   const { status, data: singInCheckResult, hasEmitted } = useSigninCheck()
@@ -23,15 +23,33 @@ function AdminLayout() {
 }
 
 function AuthenticatedLayout() {
-  useUser({
-    suspense: true
+  useUser({ suspense: true })
+
+  const [chat, setChat] = useState<{ 
+    chatId: string | null, 
+    participants: string[],
+  }>({
+    chatId: null,
+    participants: [],
   })
 
+  const chatContextValue: ChatContextType = {
+    chatId: chat.chatId,
+    setChatId: (id: string | null) => {
+      setChat({ chatId: id, participants: [] })
+    },
+    participants: chat.participants,
+    setParticipants: (participants: string[]) => {
+      setChat(prev => ({ ...prev, participants: [...participants] }))
+    },
+  }
+
   return (
-    <>
-      <Navbar />
-      <Outlet />
-    </>
+    <ChatContext.Provider value={chatContextValue}>
+      <div className="h-screen">
+        <Outlet />
+      </div>
+    </ChatContext.Provider>
   )
 }
 

@@ -1,6 +1,14 @@
-import { Outlet } from "react-router"
+import { Navigate, Outlet } from "react-router"
+import { useSigninCheck } from "reactfire"
 
 function PublicLayout() {
+  const { status, data: singInCheckResult, hasEmitted } = useSigninCheck()
+  if(status == 'loading' || !hasEmitted) {
+    return <p>....</p>
+  }
+  if(status == 'success' && singInCheckResult.signedIn) {
+    return <Navigate to="/admin" replace />
+  }
 
   return (
     <>
