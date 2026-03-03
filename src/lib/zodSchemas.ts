@@ -27,3 +27,9 @@ export const messageZodSchema = z.object({
     text: z.string().trim().min(1).max(200)
 })
 export type MessageSchemaType = z.infer<typeof messageZodSchema>
+
+
+export const contactSeachZodShema = z.object({
+  email: z.email(),
+})
+export type ContactSeachShemaType = z.infer<typeof contactSeachZodShema>
