@@ -1,34 +1,45 @@
 import Chat from "@/components/Chat"
 import EmptyChat from "@/components/EmptyChat"
 import ListContact from "@/components/ListContact"
-import SearchContact from "@/components/SearchContact"
 import { Spinner } from "@/components/ui/spinner"
-import { Suspense, useState } from "react"
+import { ResizablePanel, ResizableHandle, ResizablePanelGroup } from "@/components/ui/resizable"
+import { Suspense, useContext } from "react"
+import { useChatActions } from "@/hooks/useChatActions"
+import { ChatContext } from "@/contexts/ChatContext"
+import ChatHeaderLeft from "@/components/ChatHeaderLeft"
+import ChatHeaderRight from "@/components/ChatHeaderRight"
 
 function ChatPage() {
-    const [ chatId, setChatId ] = useState('')
-
-    const handleClickChat = (id: string) => {
-        setChatId(id)
-    }
+    const { chats } = useChatActions()
+    const { chatId: actualChatId, setChatId, participants, setParticipants } = useContext(ChatContext)
     
+    const handleSelectChat = (chatId: string) => {
+        setChatId(chatId)
+        const selectedChat = chats?.find(c => c.id === chatId)
+        setParticipants(selectedChat?.participants ?? [])
+    }
+
     return (
-        <>
-            <div className="p-4 flex">
-                <section>
-                    <Suspense fallback={<Spinner />}>
-                        <SearchContact setChatId={setChatId} />
-                        <ListContact setChatId={handleClickChat} selectedChatId={chatId} />
+        <ResizablePanelGroup orientation="horizontal" className="w-full h-full">
+            <ResizablePanel defaultSize={30} minSize={11}>
+                <div className="flex flex-col h-full">
+                    <ChatHeaderLeft />
+                    <Suspense fallback={<div className="flex items-center justify-center h-full"><Spinner /></div>}>
+                        <ListContact chatId={actualChatId} setChatId={handleSelectChat} />
                     </Suspense>
-                </section>
-                <section>
-                    {!chatId && <EmptyChat /> }
-                    {chatId && <Suspense fallback={<Spinner />}>
-                        <Chat chatId={chatId} />
-                    </Suspense> }
-                </section>
-            </div>
-        </>
+                </div>
+            </ResizablePanel>
+            <ResizableHandle withHandle className="hover:bg-[#FFA51E] transition-colors" />
+            <ResizablePanel defaultSize={70} minSize={30}>
+                <div className="flex flex-col h-full">
+                    <ChatHeaderRight selectedChatId={actualChatId} participants={participants} />
+                    <Suspense fallback={<div className="flex items-center justify-center h-full"><Spinner /></div>}>
+                        {!actualChatId && <EmptyChat />}
+                        {actualChatId && <Chat chatId={actualChatId} participants={participants} />}
+                    </Suspense>
+                </div>
+            </ResizablePanel>
+        </ResizablePanelGroup>
     )
 }
 
