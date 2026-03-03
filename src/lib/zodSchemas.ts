@@ -22,3 +22,14 @@ export const taskZodSchema = z.object({
     description: z.string().max(500).optional(),
 })
 export type TaskZodSchemaType = z.infer<typeof taskZodSchema>
+
+export const messageZodSchema = z.object({
+    text: z.string().trim().min(1).max(200)
+})
+export type MessageSchemaType = z.infer<typeof messageZodSchema>
+
+
+export const contactSeachZodShema = z.object({
+  email: z.email(),
+})
+export type ContactSeachShemaType = z.infer<typeof contactSeachZodShema>
