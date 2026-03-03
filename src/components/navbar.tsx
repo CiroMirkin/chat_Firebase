@@ -6,13 +6,11 @@ import {
     MessageCircleIcon, 
     LayoutDashboardIcon,
     LogOutIcon,
-    CheckSquareIcon 
 } from "lucide-react"
 import { useAuth } from "reactfire"
 
 const navItems = [
     { path: "/admin/", label: "Dashboard", icon: LayoutDashboardIcon },
-    { path: "/admin/tasks", label: "Tareas", icon: CheckSquareIcon },
     { path: "/admin/chat", label: "Chat", icon: MessageCircleIcon },
 ]
 const profilePath = "/admin/profile"
