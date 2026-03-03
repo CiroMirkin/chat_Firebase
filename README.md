@@ -1,6 +1,6 @@
 # Chat
 
-[Deploy](https://prueba-92c10.web.app/)
+[Deploy](https://chat-92c10.web.app/)
 
 Aplicacion de mensajeria en tiempo real entre usuarios, construida con React y Firebase.
 
