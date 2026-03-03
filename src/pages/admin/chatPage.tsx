@@ -29,7 +29,7 @@ function ChatPage() {
                     </Suspense>
                 </div>
             </ResizablePanel>
-            <ResizableHandle withHandle className="hover:bg-[#FFA51E] transition-colors" />
+            <ResizableHandle withHandle className="hover:bg-primary transition-colors" />
             <ResizablePanel defaultSize={70} minSize={30}>
                 <div className="flex flex-col h-full">
                     <ChatHeaderRight selectedChatId={actualChatId} participants={participants} />

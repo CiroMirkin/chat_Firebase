@@ -29,7 +29,7 @@ export function MessageBubble({ message, isOwn, senderPhotoURL, senderName }: Me
                 <div className={cn(
                     "rounded-2xl px-4 py-2.5 text-sm leading-relaxed",
                     isOwn 
-                        ? "bg-[#FFA51E] text-[#1E1E1E] rounded-br-sm shadow-md" 
+                        ? "bg-primary text-primary-foreground rounded-br-sm shadow-md" 
                         : "bg-white text-[#1E1E1E] rounded-bl-sm border border-black/5 shadow-sm"
                 )}>
                     <p className="whitespace-pre-wrap break-words">{message.text}</p>
@@ -54,9 +54,9 @@ export function TypingIndicator() {
                 <AvatarFallback className="text-xs">?</AvatarFallback>
             </Avatar>
             <div className="bg-[#FAF7CC]/30 rounded-2xl rounded-bl-sm px-4 py-3 flex gap-1 items-center border border-[#FAF7CC]">
-                <div className="w-1 h-1 bg-[#FFA51E] rounded-full animate-bounce" />
-                <div className="w-1 h-1 bg-[#FFA51E] rounded-full animate-bounce" style={{ animationDelay: "0.2s" }} />
-                <div className="w-1 h-1 bg-[#FFA51E] rounded-full animate-bounce" style={{ animationDelay: "0.4s" }} />
+                <div className="w-1 h-1 bg-primary rounded-full animate-bounce" />
+                <div className="w-1 h-1 bg-primary rounded-full animate-bounce" style={{ animationDelay: "0.2s" }} />
+                <div className="w-1 h-1 bg-primary rounded-full animate-bounce" style={{ animationDelay: "0.4s" }} />
             </div>
         </div>
     )

@@ -39,7 +39,7 @@ function NewMessageInput({ chatId }: Props) {
     })
     
     return (
-        <form onSubmit={handleSendMessage} className="flex items-end gap-3 bg-white rounded-2xl border border-black/10 p-1.5 focus-within:border-[#FFA51E] transition-all shadow-sm">
+        <form onSubmit={handleSendMessage} className="flex items-end gap-3 bg-white rounded-2xl border border-black/10 p-1.5 focus-within:border-primary transition-all shadow-sm">
             <Controller
                 name="text"
                 control={form.control}
@@ -69,7 +69,7 @@ function NewMessageInput({ chatId }: Props) {
                 type="submit" 
                 size="icon"
                 disabled={isLoading || !form.watch("text")?.trim()}
-                className="bg-[#FFA51E] text-[#1E1E1E] w-10 h-10 rounded-xl flex items-center justify-center hover:bg-[#FF5200] hover:text-white transition-all active:scale-95 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                className="bg-primary text-primary-foreground w-10 h-10 rounded-xl flex items-center justify-center hover:bg-[#FF5200] hover:text-white transition-all active:scale-95 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
                 aria-label="Enviar mensaje"
             >
                 {isLoading ? <Spinner /> : <ArrowUpRight className="size-5" />}

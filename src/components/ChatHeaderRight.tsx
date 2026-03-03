@@ -47,7 +47,7 @@ function Friend({ friendId }: { friendId: string }) {
                 </div>
             </div>
             <div className="flex items-center gap-0.5 text-black/40 ml-2">
-                <button className="p-2 hover:bg-[#FAF7CC]/50 hover:text-[#FFA51E] rounded-lg transition-colors" aria-label="Más opciones">
+                <button className="p-2 hover:bg-secondary/50 hover:text-primary rounded-lg transition-colors" aria-label="Más opciones">
                     <MoreVertical className="size-5" />
                 </button>
             </div>

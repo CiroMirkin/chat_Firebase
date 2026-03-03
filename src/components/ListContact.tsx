@@ -16,11 +16,11 @@ function ListContact({ chatId, setChatId }: Props) {
             {/* Search */}
             <div className="p-4 border-b border-black/5 bg-white">
                 <div className="relative flex items-center group">
-                    <Search className="absolute left-3 text-black/40 group-focus-within:text-[#FFA51E] transition-colors" size={18} />
+                    <Search className="absolute left-3 text-black/40 group-focus-within:text-primary transition-colors" size={18} />
                     <input 
                         type="text" 
                         placeholder="Buscar mensajes..." 
-                        className="w-full pl-10 pr-4 py-2 bg-[#1E1E1E]/[0.02] border border-black/10 rounded-xl text-sm focus:outline-none focus:border-[#FFA51E] focus:bg-white transition-all"
+                        className="w-full pl-10 pr-4 py-2 bg-[#1E1E1E]/[0.02] border border-black/10 rounded-xl text-sm focus:outline-none focus:border-primary focus:bg-white transition-all"
                     />
                 </div>
             </div>

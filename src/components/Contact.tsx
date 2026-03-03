@@ -21,8 +21,8 @@ function Contact({ chat, setChatId, isSelected }: Props) {
             className={`
                 flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-colors
                 ${isSelected 
-                    ? "bg-[#FAF7CC] shadow-[0_2px_8px_rgb(30,30,30,0.02)] border border-[#FAF7CC]" 
-                    : "hover:bg-[#FAF7CC]/30"
+                    ? "bg-secondary/40 shadow-[0_2px_8px_rgb(30,30,30,0.02)] border border-primary/50" 
+                    : "hover:bg-secondary/20"
                 }
             `}
             onClick={() => setChatId(chat.id)}
@@ -34,9 +34,6 @@ function Contact({ chat, setChatId, isSelected }: Props) {
                 }
             }}
         >
-            {isSelected && (
-                <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#FF5200] rounded-r-full" />
-            )}
             <Avatar className="size-10 ml-1">
                 <AvatarImage src={friend?.photoURL || undefined} />
                 <AvatarFallback>{friend?.name?.charAt(0) || "?"}</AvatarFallback>
