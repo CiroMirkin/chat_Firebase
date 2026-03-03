@@ -207,6 +207,7 @@ Las reglas estan definidas en `firestore.rules`. A continuacion un resumen de la
 | `messages` | Solo podes leer o enviar mensajes en salas donde estas incluido |
 | (general) | Prohibido traer listas completas (por privacidad) |
 
+> [!WARNING]
 > Nota: Exponer las reglas de seguridad no es una buena practica en produccion. En este caso se hace de forma consciente al tratarse de un side-project.
 
 Referencias:
