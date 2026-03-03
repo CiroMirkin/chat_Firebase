@@ -2,6 +2,7 @@
 .firebaserc
 # firestore.rules
 firestore.indexes.json
+.firebase
 
 # Logs
 logs
