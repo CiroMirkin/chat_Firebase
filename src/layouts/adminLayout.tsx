@@ -25,23 +25,11 @@ function AdminLayout() {
 function AuthenticatedLayout() {
   useUser({ suspense: true })
 
-  const [chat, setChat] = useState<{ 
-    chatId: string | null, 
-    participants: string[],
-  }>({
-    chatId: null,
-    participants: [],
-  })
+  const [chatId, setChatId] = useState<string | null>(null)
 
   const chatContextValue: ChatContextType = {
-    chatId: chat.chatId,
-    setChatId: (id: string | null) => {
-      setChat({ chatId: id, participants: [] })
-    },
-    participants: chat.participants,
-    setParticipants: (participants: string[]) => {
-      setChat(prev => ({ ...prev, participants: [...participants] }))
-    },
+    chatId,
+    setChatId
   }
 
   return (
