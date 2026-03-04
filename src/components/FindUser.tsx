@@ -1,25 +1,75 @@
-import { cn } from "@/lib/utils"
+import { useForm, Controller } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { FieldError } from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
+import { type ContactSeachShemaType, contactSeachZodShema } from "@/lib/zodSchemas"
+import { useChatActions } from "@/hooks/useChatActions"
+import { useTransition } from "react"
+import { toast } from "sonner"
 import { Search } from "lucide-react"
+import { Spinner } from "./ui/spinner"
 
 interface Props {
-    isHide: boolean
+    setChatId: (chatId: string) => void
 }
 
-function FindUser({ isHide = false }: Props) {
+function FindUser({ setChatId }: Props) {
+    const { createOrFindChat } = useChatActions()
+    const [isLoading, startTransition] = useTransition()
+    const form = useForm<ContactSeachShemaType>({
+        resolver: zodResolver(contactSeachZodShema),
+        defaultValues: {
+            email: "",
+        },
+    })
+
+    function onSubmit(values: ContactSeachShemaType) {
+        startTransition(async () => {
+            try {
+                const { success, chatId } = await createOrFindChat(values.email)
+                if (success) {
+                    setChatId(chatId)
+                    form.reset()
+                    toast.success("Chat creado")
+                    return
+                }
+                toast.warning("Chat o contacto no encontrado")
+            } catch (e) {
+                console.error(e)
+            }
+        })
+    }
+
     return (
-        <div className={cn(
-            "p-4 pb-2 border-black/5",
-            isHide ? "block" : "hidden"
-        )}>
-            <div className="relative flex items-center group">
-                <Search className="absolute left-3 text-black/40 group-focus-within:text-primary transition-colors" size={18} />
-                <input 
-                    type="text" 
-                    placeholder="Buscar mensajes..." 
-                    className="w-full pl-10 pr-4 py-2 bg-[#1E1E1E]/[0.02] border border-black/10 rounded-xl text-sm focus:outline-none focus:border-primary focus:bg-white transition-all"
-                />
+        <form onSubmit={form.handleSubmit(onSubmit)} className="p-4 pb-2">
+            <div className="flex gap-1 items-center">
+                <div className="relative flex items-center flex-1 group">
+                    { isLoading 
+                        ? <Spinner /> 
+                        : <Search className="absolute left-3 text-black/40 group-focus-within:text-primary transition-colors" size={18} />
+                    }
+                    <Controller
+                        name="email"
+                        control={form.control}
+                        render={({ field, fieldState }) => (
+                            <>
+                                <Input
+                                    disabled={isLoading}
+                                    {...field}
+                                    type="email"
+                                    id={field.name}
+                                    aria-invalid={fieldState.invalid}
+                                    placeholder="Buscar usuario por email..."
+                                    autoComplete="off"
+                                    className="pl-10"
+                                />
+                                {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                            </>
+                        )}
+                    />
+                </div>
             </div>
-        </div>
+        </form>
     )
 }
 
