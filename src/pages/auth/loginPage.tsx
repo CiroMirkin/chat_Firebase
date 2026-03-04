@@ -106,7 +106,7 @@ function LoginPage() {
                 <CardFooter className="justify-center">
                     <p className="text-sm text-muted-foreground">
                         ¿No tienes cuenta?{" "}
-                        <Button variant="link" className="p-0 h-auto" onClick={() => navigate("/register")}>
+                        <Button variant="link" className="p-0 h-auto" onClick={() => navigate("/auth/register")}>
                             Regístrate
                         </Button>
                     </p>

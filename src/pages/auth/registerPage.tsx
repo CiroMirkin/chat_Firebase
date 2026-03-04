@@ -116,7 +116,7 @@ function RegisterPage() {
                 <CardFooter className="justify-center">
                     <p className="text-sm text-muted-foreground">
                         ¿Ya tienes cuenta?{" "}
-                        <Button variant="link" className="p-0 h-auto" onClick={() => navigate("/login")}>
+                        <Button variant="link" className="p-0 h-auto" onClick={() => navigate("/auth/login")}>
                             Inicia sesión
                         </Button>
                     </p>
