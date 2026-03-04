@@ -55,16 +55,17 @@ export const useChatActions = () => {
             message: "404",
             chatId: null,
         }
-
+        console.log(friend)
         const existChat = chats.find(chat => (
             chat.participants.find((id: string) => id == friend.id)
         ))
+        console.log(existChat)
         if(existChat) return {
             success: true,
             message: "200",
             chatId: existChat.id
         }
-
+        console.log("ids", friend.id, user.uid)
         const newChat: Omit<Chat, 'id'> =  {
             createdAt: serverTimestamp(),
             lastMessage: null,
