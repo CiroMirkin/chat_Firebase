@@ -10,7 +10,7 @@ function ProfilePage() {
 
     return (
         <div className="container max-w-4xl mx-auto py-8 px-4">
-            <header className="p-4 flex items-center bg-white">
+            <header className="p-4 flex items-center">
                 <Link to="/admin/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
                     <HomeIcon/>
                 </Link>
