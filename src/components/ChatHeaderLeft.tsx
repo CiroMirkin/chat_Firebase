@@ -1,12 +1,18 @@
 import { Link } from "react-router"
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 import { useUser } from "reactfire"
+import { Button } from "./ui/button"
+import { LogInIcon } from "lucide-react"
+import { useAuthAction } from "@/hooks/useAuthAction"
 
 function ChatHeaderLeft() {
     const { data: user } = useUser()
+    const { logout } = useAuthAction()
+
+    const handleLogOut = async () => await logout()
 
     return (
-        <div className="p-4 flex items-center border-b border-black/5 bg-white">
+        <div className="p-4 flex justify-between items-center border-b border-black/5 bg-white">
             <Link to="/admin/profile" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
                 <Avatar className="w-9 h-9">
                     <AvatarImage src={user?.photoURL || undefined} />
@@ -20,6 +26,9 @@ function ChatHeaderLeft() {
                     </div>
                 </div>
             </Link>
+            <Button variant="ghost" onClick={handleLogOut}>
+                <LogInIcon />
+            </Button>
         </div>
     )
 }

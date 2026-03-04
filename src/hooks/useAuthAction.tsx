@@ -92,7 +92,7 @@ export const useAuthAction = (): AuthActions => {
     const logout = (): Promise<AuthActionResponse> => {
         return authPromise(async () => {
             await signOut(auth)
-            window.location.href = "/auth/login"
+            window.location.href = "/"
         })
     }
 
