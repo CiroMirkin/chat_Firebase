@@ -25,38 +25,27 @@ export function MessageBubble({ message, isOwn, senderPhotoURL, senderName }: Me
                     </AvatarFallback>
                 </Avatar>
             )}
-            <div className={cn("flex flex-col gap-1", isOwn && "items-end")}>
-                <div className={cn(
-                    "rounded-2xl px-4 py-2.5 text-sm leading-relaxed",
-                    isOwn 
-                        ? "bg-primary text-primary-foreground rounded-br-sm shadow-md" 
-                        : "bg-white text-[#1E1E1E] rounded-bl-sm border border-black/5 shadow-sm"
-                )}>
-                    <p className="whitespace-pre-wrap break-words">{message.text}</p>
-                </div>
-                <div className={cn("flex items-center gap-1 ml-1", isOwn && "mr-1")}>
-                    <span className="text-[10px] text-black/40">
+            <div className={cn(
+                "relative rounded-2xl px-4 py-2.5 text-sm leading-relaxed",
+                isOwn 
+                    ? "bg-primary text-primary-foreground rounded-br-sm shadow-sm" 
+                    : "bg-white text-[#1E1E1E] rounded-bl-sm border border-black/5 shadow-sm"
+            )}>
+                <p className="whitespace-pre-wrap break-words">
+                    {message.text}
+                    <span className="inline-block w-16" aria-hidden="true" />
+                </p>
+                <div className="absolute bottom-2 right-3 flex items-center gap-1">
+                    <span className={cn(
+                        "text-[10px]",
+                        isOwn ? "text-primary-foreground/60" : "text-black/40"
+                    )}>
                         {formatTime(message.timestamp)}
                     </span>
                     {isOwn && (
                         <CheckCheck className="size-3.5 text-[#233A6C]" />
                     )}
                 </div>
-            </div>
-        </div>
-    )
-}
-
-export function TypingIndicator() {
-    return (
-        <div className="flex items-end gap-2.5">
-            <Avatar className="w-7 h-7 mb-1 shrink-0 opacity-50">
-                <AvatarFallback className="text-xs">?</AvatarFallback>
-            </Avatar>
-            <div className="bg-[#FAF7CC]/30 rounded-2xl rounded-bl-sm px-4 py-3 flex gap-1 items-center border border-[#FAF7CC]">
-                <div className="w-1 h-1 bg-primary rounded-full animate-bounce" />
-                <div className="w-1 h-1 bg-primary rounded-full animate-bounce" style={{ animationDelay: "0.2s" }} />
-                <div className="w-1 h-1 bg-primary rounded-full animate-bounce" style={{ animationDelay: "0.4s" }} />
             </div>
         </div>
     )
