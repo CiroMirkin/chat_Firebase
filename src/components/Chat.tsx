@@ -38,7 +38,7 @@ function Chat({ chatId, participants }: Props) {
             </div>
 
             {/* Input */}
-            <div className="p-4 bg-white border-t border-black/5">
+            <div className="p-4 bg-secondary/10 border-t border-black/5">
                 <NewMessageInput chatId={chatId} />
             </div>
         </div>

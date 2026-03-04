@@ -12,7 +12,7 @@ function ChatHeaderLeft() {
     const handleLogOut = async () => await logout()
 
     return (
-        <div className="p-4 flex justify-between items-center border-b border-black/5 bg-white">
+        <div className="p-4 flex justify-between items-center border-b border-black/5">
             <Link to="/admin/profile" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
                 <Avatar className="w-9 h-9">
                     <AvatarImage src={user?.photoURL || undefined} />

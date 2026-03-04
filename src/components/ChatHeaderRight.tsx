@@ -18,7 +18,7 @@ function ChatHeaderRight({ selectedChatId, participants }: ChatHeaderRightProps)
         : ""
 
     return (
-        <div className="p-4 flex items-center border-b border-black/5 bg-white">
+        <div className="p-4 flex items-center border-b border-black/5">
             { selectedChatId && friendId && (
                 <Suspense fallback={<Spinner />}>
                     <Friend friendId={friendId} />
