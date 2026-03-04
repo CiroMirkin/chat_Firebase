@@ -4,24 +4,25 @@ import type { Message } from "@/schemas/chatSchema"
 import { MessageBubble } from "./MessageBubble"
 import NewMessageInput from "./NewMessageInput"
 import { useFriendInfo } from "@/hooks/useFriendInfo"
+import { useChatParticipants } from "@/hooks/useChatParticipants"
 
 interface Props {
     chatId: string
-    participants: string[]
 }
 
-function Chat({ chatId, participants }: Props) {
+function Chat({ chatId }: Props) {
     const { messages } = useMessagesActions(chatId)
     const { data: user } = useUser()
     const currentUserId = user?.uid || ""
     
+    const participants = useChatParticipants(chatId)
     const friendId = participants.find(p => p !== user?.uid) || ""
     const { friend } = useFriendInfo(friendId)
 
     return (
-        <div className="flex-1 flex flex-col h-full">
+        <div className="flex flex-col h-full">
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-6 bg-secondary chat-scrollbar">
+            <div className="flex-1 min-h-0 overflow-y-auto p-6 flex flex-col gap-6 bg-secondary chat-scrollbar">
                 {(!messages || messages.length === 0) ? (
                     <p className="text-center text-black/40 text-sm">No hay mensajes aún</p>
                 ) : (
@@ -38,7 +39,7 @@ function Chat({ chatId, participants }: Props) {
             </div>
 
             {/* Input */}
-            <div className="p-4 bg-secondary/10 border-t border-black/5">
+            <div className="shrink-0 p-4 bg-secondary/10 border-t border-black/5">
                 <NewMessageInput chatId={chatId} />
             </div>
         </div>

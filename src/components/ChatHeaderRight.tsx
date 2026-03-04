@@ -4,15 +4,15 @@ import { useFriendInfo } from "@/hooks/useFriendInfo"
 import { MoreVertical } from "lucide-react"
 import { Suspense } from "react"
 import { Spinner } from "./ui/spinner"
+import { useChatParticipants } from "@/hooks/useChatParticipants"
 
 interface ChatHeaderRightProps {
     selectedChatId: string | null
-    participants?: string[]
 }
 
-function ChatHeaderRight({ selectedChatId, participants }: ChatHeaderRightProps) {
+function ChatHeaderRight({ selectedChatId }: ChatHeaderRightProps) {
     const { data: user } = useUser()
-
+    const participants = useChatParticipants(selectedChatId)
     const friendId = selectedChatId && participants
         ? participants.find(p => p !== user?.uid) || ""
         : ""
