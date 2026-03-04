@@ -8,6 +8,7 @@ import { useChatActions } from "@/hooks/useChatActions"
 import { ChatContext } from "@/contexts/ChatContext"
 import ChatHeaderLeft from "@/components/ChatHeaderLeft"
 import ChatHeaderRight from "@/components/ChatHeaderRight"
+import FindUser from "@/components/FindUser"
 
 function ChatPage() {
     const { chats } = useChatActions()
@@ -21,17 +22,18 @@ function ChatPage() {
 
     return (
         <ResizablePanelGroup orientation="horizontal" className="w-full h-full">
-            <ResizablePanel defaultSize={30} minSize={11}>
-                <div className="flex flex-col h-full">
+            <ResizablePanel defaultSize="30%" minSize="11%">
+                <div className="bg-secondary/10 bg-secondary/20flex flex-col h-full">
                     <ChatHeaderLeft />
+                    <FindUser isHide/>
                     <Suspense fallback={<div className="flex items-center justify-center h-full"><Spinner /></div>}>
                         <ListContact chatId={actualChatId} setChatId={handleSelectChat} />
                     </Suspense>
                 </div>
             </ResizablePanel>
             <ResizableHandle withHandle className="hover:bg-primary transition-colors" />
-            <ResizablePanel defaultSize={70} minSize={30}>
-                <div className="flex flex-col h-full">
+            <ResizablePanel defaultSize="70%" minSize="30%">
+                <div className="bg-secondary/10 flex flex-col h-full">
                     <ChatHeaderRight selectedChatId={actualChatId} participants={participants} />
                     <Suspense fallback={<div className="flex items-center justify-center h-full"><Spinner /></div>}>
                         {!actualChatId && <EmptyChat />}
