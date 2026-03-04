@@ -12,9 +12,9 @@ function AuthLayout() {
     return <Navigate to="/admin/" replace />
   }
   return (
-    <>
+    <div className="bg-secondary">
       <Outlet />
-    </>
+    </div>
   )
 }
 

@@ -3,7 +3,7 @@ import { Link } from "react-router"
 
 function HomePage() {
     return (
-        <div className="min-h-screen p-6">
+        <div className="grid place-items-center min-h-screen p-6">
             <div className="max-w-4xl mx-auto space-y-8">
                 <section className="text-center space-y-4">
                     <h1 className="text-4xl font-bold">Chat</h1>

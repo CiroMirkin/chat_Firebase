@@ -5,7 +5,7 @@ import { Link } from "react-router"
 
 function NotFoundPage() {
     return (
-        <div className="min-h-screen flex items-center justify-center p-4">
+        <div className="bg-secondary min-h-screen flex items-center justify-center p-4">
             <Card className="w-full max-w-md text-center">
                 <CardHeader>
                     <CardTitle className="text-6xl font-bold">404</CardTitle>
