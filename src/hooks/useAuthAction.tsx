@@ -2,6 +2,7 @@ import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithEmailAndP
 import { useState } from "react"
 import { useAuth } from "reactfire"
 import { useUserActions } from "./userUserActions"
+import { useAddDefaultFriend } from "./useAddDefaultFriend"
 
 interface AuthActionResponse {
     success: boolean
@@ -30,6 +31,7 @@ export const useAuthAction = (): AuthActions => {
     const [loading, setLoading] = useState(false)
     const auth = useAuth()
     const { createOrUpdateUser } = useUserActions()
+    const { addDefaultFriend } = useAddDefaultFriend()
 
     const authPromise = async (promise: () => Promise<unknown>): Promise<AuthActionResponse> => {
         setLoading(true)
@@ -76,6 +78,7 @@ export const useAuthAction = (): AuthActions => {
                     displayName: data.email.split('@')[0] || ''
                 })
                 await createOrUpdateUser(currentUser.user)
+                await addDefaultFriend(currentUser.user)
                 await currentUser.user.reload()
             }
         })
@@ -85,6 +88,7 @@ export const useAuthAction = (): AuthActions => {
         return authPromise(async () => {
             const provider = new GoogleAuthProvider()
             const data = await signInWithPopup(auth, provider)
+            await addDefaultFriend(data.user)
             await createOrUpdateUser(data.user)
         })
     }
