@@ -9,6 +9,7 @@ export interface Message {
     text: string
     senderId: Participant
     timestamp: Timestamp
+    wasRead: boolean
 }
 
 export type LastMessage = Omit<Message, 'id'>
