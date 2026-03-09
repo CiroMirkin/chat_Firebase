@@ -5,19 +5,30 @@ import { MessageBubble } from "./MessageBubble"
 import NewMessageInput from "./NewMessageInput"
 import { useFriendInfo } from "@/hooks/useFriendInfo"
 import { useChatParticipants } from "@/hooks/useChatParticipants"
+import { useEffect } from "react"
 
 interface Props {
     chatId: string
 }
 
 function Chat({ chatId }: Props) {
-    const { messages } = useMessagesActions(chatId)
+    const { messages, markMessageAsRead } = useMessagesActions(chatId)
     const { data: user } = useUser()
     const currentUserId = user?.uid || ""
     
     const participants = useChatParticipants(chatId)
     const friendId = participants.find(p => p !== user?.uid) || ""
     const { friend } = useFriendInfo(friendId)
+
+    useEffect(() => {
+        if (!messages || !currentUserId) return
+
+        messages.forEach(message => {
+            if (message.senderId !== currentUserId && !message.wasRead) {
+                markMessageAsRead(message.id)
+            }
+        })
+    }, [messages, currentUserId, markMessageAsRead])
 
     return (
         <div className="flex flex-col h-full">
