@@ -3,6 +3,7 @@ import { useUser } from "reactfire"
 import { useFriendInfo } from "@/hooks/useFriendInfo"
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 import { formatTime } from "@/lib/formatTime"
+import { Asterisk } from "lucide-react"
 
 
 interface Props {
@@ -50,10 +51,14 @@ function Contact({ chat, setChatId, isSelected }: Props) {
                     )}
                 </div>
                 {chat.lastMessage && (
-                    <p className="text-xs text-black/50 truncate">
+                    <p className="flex justify-between text-xs text-black/50 truncate">
                         {chat.lastMessage.text}
+                        {(!chat.lastMessage?.wasRead && chat.lastMessage.senderId !== user?.uid) && (
+                            <Asterisk size={15} className="p-px text-green-900 bg-green-200 rounded-full" />
+                        ) }
                     </p>
                 )}
+                
             </div>
         </div>
     )
