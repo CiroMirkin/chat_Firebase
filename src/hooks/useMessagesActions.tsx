@@ -20,6 +20,7 @@ export const useMessagesActions = (chatId: string) => {
             senderId: user!.uid,
             text: messageText,
             timestamp,
+            wasRead: false,
         }
         
         const chatRef = doc(db, "rooms", chatId)
@@ -35,8 +36,24 @@ export const useMessagesActions = (chatId: string) => {
         ])
     }
 
+    const markMessageAsRead = async (messageId: string) => {
+        const chatRef = doc(db, "rooms", chatId)
+        const messageRef = doc(db, "rooms", chatId, "messages", messageId)
+
+        const message = messages.find(m => m.id === messageId)
+        if (!message) return
+
+        await Promise.all([
+            updateDoc(messageRef, { wasRead: true }),
+            updateDoc(chatRef, {
+                "lastMessage.wasRead": true,
+            })
+        ])
+    }
+
     return {
         messages: messages as Message[],
         sendMessage,
+        markMessageAsRead,
     }
 }
