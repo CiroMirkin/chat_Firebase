@@ -15,7 +15,8 @@ export function MessageBubble({ message, isOwn, senderPhotoURL, senderName }: Me
     return (
         <div className={cn(
             "flex items-end gap-2.5",
-            isOwn ? "self-end flex-row-reverse max-w-[80%]" : "max-w-[80%]"
+            isOwn ? "self-end flex-row-reverse max-w-[80%]" : "max-w-[80%]",
+            !isOwn && "mb-2",
         )}>
             {!isOwn && (
                 <Avatar className="w-7 h-7 mb-1 shrink-0">

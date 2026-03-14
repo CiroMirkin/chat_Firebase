@@ -1,14 +1,16 @@
 import { useChatActions } from "@/hooks/useChatActions"
 import type { Chat } from "@/schemas/chatSchema"
 import { MessageCircleIcon } from "lucide-react"
+import { Link } from "react-router"
 import Contact from "./Contact"
 
 interface Props { 
     chatId: string | null, 
-    setChatId: (chatId: string) => void 
+    setChatId: (chatId: string) => void,
+    useLink?: boolean
 }
 
-function ListContact({ chatId, setChatId }: Props) {
+function ListContact({ chatId, setChatId, useLink = false }: Props) {
     const { chats } = useChatActions()
 
     return (
@@ -28,11 +30,21 @@ function ListContact({ chatId, setChatId }: Props) {
                 ) : (
                     chats.map((room: Chat) => (
                         <div key={room.id} className="relative">
-                            <Contact 
-                                chat={room}
-                                setChatId={setChatId}
-                                isSelected={chatId === room.id}
-                            />
+                            {useLink ? (
+                                <Link to={`/admin/chat/${room.id}`}>
+                                    <Contact 
+                                        chat={room}
+                                        setChatId={() => {}}
+                                        isSelected={false}
+                                    />
+                                </Link>
+                            ) : (
+                                <Contact 
+                                    chat={room}
+                                    setChatId={setChatId}
+                                    isSelected={chatId === room.id}
+                                />
+                            )}
                         </div>
                     ))
                 )}

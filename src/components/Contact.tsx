@@ -41,7 +41,7 @@ function Contact({ chat, setChatId, isSelected }: Props) {
             </Avatar>
             <div className="flex-1 min-w-0">
                 <div className="flex justify-between items-baseline">
-                    <p className={`text-sm font-medium truncate ${isSelected ? "" : "text-black/80"}`}>
+                    <p className={`text-sm font-semibold truncate ${isSelected ? "" : "text-black/80"}`}>
                         {friend.name || friend.email}
                     </p>
                     {chat.lastMessage && (
@@ -51,8 +51,8 @@ function Contact({ chat, setChatId, isSelected }: Props) {
                     )}
                 </div>
                 {chat.lastMessage && (
-                    <p className="flex justify-between text-xs text-black/50 truncate">
-                        {chat.lastMessage.text}
+                    <p className="flex justify-between text-xs text-black/50">
+                        <span className="pr-10 truncate">{chat.lastMessage.text}</span>
                         {(!chat.lastMessage?.wasRead && chat.lastMessage.senderId !== user?.uid) && (
                             <Asterisk size={15} className="p-px text-green-900 bg-green-200 rounded-full" />
                         ) }

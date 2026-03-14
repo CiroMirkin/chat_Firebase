@@ -33,7 +33,7 @@ function Chat({ chatId }: Props) {
     return (
         <div className="flex flex-col h-full">
             {/* Messages */}
-            <div className="flex-1 min-h-0 overflow-y-auto p-6 flex flex-col gap-1 bg-secondary chat-scrollbar">
+            <div className="flex-1 min-h-0 overflow-y-auto p-6 flex flex-col gap-1.5 bg-secondary chat-scrollbar">
                 {(!messages || messages.length === 0) ? (
                     <p className="text-center text-black/40 text-sm">No hay mensajes aún</p>
                 ) : (

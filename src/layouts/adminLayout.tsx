@@ -1,4 +1,4 @@
-import { Spinner } from "@/components/ui/spinner"
+import SuspenseFallback from "@/components/ui/suspense-fallback"
 import { Suspense, useState } from "react"
 import { Navigate, Outlet } from "react-router"
 import { useSigninCheck, useUser } from "reactfire"
@@ -8,7 +8,7 @@ function AdminLayout() {
   const { status, data: singInCheckResult, hasEmitted } = useSigninCheck()
   
   if(status == 'loading' || !hasEmitted) {
-    return <p>....</p>
+    return <SuspenseFallback spinnerSize="size-8" className="h-screen" />
   }
 
   if(!singInCheckResult.signedIn) {
@@ -16,7 +16,7 @@ function AdminLayout() {
   }
   
   return (
-    <Suspense fallback={<Spinner/>}>
+    <Suspense fallback={<SuspenseFallback spinnerSize="size-8" className="h-screen" />}>
       <AuthenticatedLayout />
     </Suspense>
   )

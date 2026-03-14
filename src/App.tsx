@@ -6,6 +6,9 @@ import AuthLayout from "./layouts/authLayout"
 import HomePage from "./pages/public/homePage"
 import ProfilePage from "./pages/admin/profilePage"
 import ChatPage from "./pages/admin/chatPage"
+import MobileChatLayout from "./layouts/MobileChatLayout"
+import MobileListContact from "./pages/admin/MobileChat/MobileListContact"
+import MobileChatPage from "./pages/admin/MobileChat/MobileChatPage"
 import LoginPage from "./pages/auth/loginPage"
 import RegisterPage from "./pages/auth/registerPage"
 import NotFoundPage from "./pages/public/notFoundPage"
@@ -24,6 +27,10 @@ function App() {
         {/* Private */}
         <Route path="admin" element={<AdminLayout />} >
           <Route index element={<ChatPage />} />
+          <Route path="chat" element={<MobileChatLayout />}>
+            <Route index element={<MobileListContact />} />
+            <Route path=":chatId" element={<MobileChatPage />} />
+          </Route>
           <Route path="profile" element={<ProfilePage />} />
         </Route>
         
